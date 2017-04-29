@@ -1,1 +1,2 @@
-# Ground_station
+# XBee-Tiva-C
+Tiva C Interface for XBee
