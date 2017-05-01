@@ -15,9 +15,5 @@
 #include "inc/hw_gpio.h"
 
 
-
-
-
-
-
-void PwmConfig(void);
+void PwmConfig(uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2);
+void PWMDCSet (uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2);
