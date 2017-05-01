@@ -35,7 +35,6 @@ int main(void) {
     SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
     
     // SET PWM CLOCK
-    SysCtlPWMClockSet(SYSCTL_PERIPH_64);
     ui32PWMClock = SysCtlClockGet() / 64;
     ui32Load = (ui32PWMClock / PWM_FREQUENCY) - 1;
 
