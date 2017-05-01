@@ -1,2 +1,2 @@
-# XBee-Tiva-C
-Tiva C Interface for XBee
+# Senior Project
+Ground station
