@@ -2,7 +2,7 @@
 
 
 
-void PwmConfig(uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2)
+void PwmConfig(uint32_t ui32Load, uint16_t Roll, uint16_t Pitch)
 {
 	// SET PWM CLOCK
 	SysCtlPWMClockSet(SYSCTL_PERIPH_64);
@@ -21,8 +21,8 @@ void PwmConfig(uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2)
 	PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, ui32Load);
 	
 	// SET PULSEWIDTH
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, ui16Adjust1 * ui32Load / 1000);
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, ui16Adjust2 * ui32Load / 1000);
+	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, Roll * ui32Load / 1000);
+	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
 	
 	// ENABLE OUTPUTS
 	PWMOutputState(PWM1_BASE, PWM_OUT_6_BIT | PWM_OUT_7_BIT, true);
@@ -30,8 +30,8 @@ void PwmConfig(uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2)
 	
 }
 
-void PWMDCSet (uint32_t ui32Load, uint16_t ui16Adjust1, uint16_t ui16Adjust2)
+void PWMDCSet (uint32_t ui32Load, uint16_t Roll, uint16_t Pitch)
 {
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, ui16Adjust1 * ui32Load / 1000);
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, ui16Adjust2 * ui32Load / 1000);
+	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, Roll * ui32Load / 1000);
+	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
 }
