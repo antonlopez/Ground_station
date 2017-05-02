@@ -4,34 +4,79 @@
 
 void PwmConfig(uint32_t ui32Load, uint16_t Roll, uint16_t Pitch)
 {
+
+    // SET PWM CLOCK
+        SysCtlPWMClockSet(SYSCTL_PWMDIV_64);
+
+        // SETUP PWM PERIPHERAL
+        SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);
+        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+
+
+
+        // ENABLE PWM PINS ON PERIPHERAL A
+        GPIOPinTypePWM(GPIO_PORTA_BASE, GPIO_PIN_6 | GPIO_PIN_7);
+        GPIOPinConfigure(GPIO_PA6_M1PWM2);
+        GPIOPinConfigure(GPIO_PA7_M1PWM3);
+
+        // ENABLE GENERATORS
+        PWMGenConfigure(PWM1_BASE, PWM_GEN_1, PWM_GEN_MODE_DOWN);
+        PWMGenPeriodSet(PWM1_BASE, PWM_GEN_1, ui32Load);
+
+        // SET PULSEWIDTH
+        PWMPulseWidthSet(PWM1_BASE, PWM_OUT_2, Roll * ui32Load / 1000);
+        PWMPulseWidthSet(PWM1_BASE, PWM_OUT_3, Pitch * ui32Load / 1000);
+
+        // ENABLE OUTPUTS
+        PWMGenEnable(PWM1_BASE, PWM_GEN_1);
+        PWMOutputState(PWM1_BASE, PWM_OUT_2_BIT | PWM_OUT_3_BIT, true);
+
+
+
+
+
+
+
+
+
+
+    /*
 	// SET PWM CLOCK
-	SysCtlPWMClockSet(SYSCTL_PERIPH_64);
+	SysCtlPWMClockSet(SYSCTL_PWMDIV_64);
 	
 	// SETUP PWM PERIPHERAL
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);
-	SysCTLPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 	
+
 	// ENABLE PWM PINS ON PERIPHERAL C
-	GPIOPinTypePWM(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5);
-	GPIOPinConfigure(GPIO_PC4_M0PWM6);
-	GPIOPinConfigure(GPIO_PC5_M0PWM7);
+	GPIOPinTypePWM(GPIO_PORTA_BASE, GPIO_PIN_6);
+	GPIOPinConfigure(GPIO_PA6_M1PWM2);
+	//GPIOPinConfigure(GPIO_PD1_M0PWM7);
 	
 	// ENABLE GENERATORS
-	PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN);
-	PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, ui32Load);
+	PWMGenConfigure(PWM1_BASE, PWM_GEN_1, PWM_GEN_MODE_DOWN);
+	PWMGenPeriodSet(PWM1_BASE, PWM_GEN_1, ui32Load);
 	
 	// SET PULSEWIDTH
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, Roll * ui32Load / 1000);
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
+	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_2, Roll * ui32Load / 1000);
+	//PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
 	
 	// ENABLE OUTPUTS
-	PWMOutputState(PWM1_BASE, PWM_OUT_6_BIT | PWM_OUT_7_BIT, true);
-	PWMGenEnable(PWM1_BASE, PWM_GEN_3);
+	PWMGenEnable(PWM1_BASE, PWM_GEN_1);
+	PWMOutputState(PWM1_BASE, PWM_OUT_2_BIT, true);  */
 	
 }
 
 void PWMDCSet (uint32_t ui32Load, uint16_t Roll, uint16_t Pitch)
 {
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, Roll * ui32Load / 1000);
-	PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
+	//PWMPulseWidthSet(PWM1_BASE, PWM_OUT_2, Roll * ui32Load / 1000);
+	//(PWM1_BASE, PWM_OUT_7, Pitch * ui32Load / 1000);
+
+    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_2, Roll * ui32Load / 1000);
+    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_3, Pitch * ui32Load / 1000);
+
+
+
 }
