@@ -22,6 +22,15 @@ void delayMS(int ms);
 
 int main(void) {
 
+    // SET SYSTEM CLOCK AT 80MHz
+        SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+
+
+    //
+      SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA); // enable port A
+      GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_7);
+
+
     // DEFINE PWM VARIABLES
     volatile uint32_t ui32Load; // Load count for PWM counter
     volatile uint32_t ui32PWMClock; // PWM Clock
@@ -31,9 +40,8 @@ int main(void) {
      uint16_t dutyPitch=30;
 
     
-    // SET SYSTEM CLOCK AT 80MHz
-    SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
     
+
     // SET PWM CLOCK
     ui32PWMClock = SysCtlClockGet() / 64;
     ui32Load = (ui32PWMClock / PWM_FREQUENCY) - 1;
@@ -51,11 +59,11 @@ int main(void) {
     while(1){
         UART_XBeeRead(dataReceived, sizeof(dataReceived));
         memcpy(&dataArray,&dataReceived, sizeof(dataReceived));
-        pitch = strtok(dataArray, " "); // split data where there is a space, pitch angle is before space
-        pitchNum = atof(pitch); // convert pitch angle to a number
+        roll = strtok(dataArray, " "); // split data where there is a space, pitch angle is before space
+        rollNum = atof(roll); // convert pitch angle to a number
 
-        roll = strtok(NULL, "\n"); // split data where there's a new line to take out roll angle
-        rollNum = atof(roll); // convert roll angle to a number
+        pitch = strtok(NULL, "\n"); // split data where there's a new line to take out roll angle
+        pitchNum = atof(pitch); // convert roll angle to a number
 
 
         Roll= 10.98 * rollNum  + 504.9;
@@ -72,11 +80,11 @@ int main(void) {
            dutyRoll = 999;
               }
 
-        if ( dutyPitch < 10) {
-           dutyPitch = 10;
+        if ( pitchNum < 0) {
+            GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, GPIO_PIN_7);
               }
-        if ( dutyPitch > 26) {
-           dutyPitch = 26;
+        if ( pitchNum > 45) {
+            GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, 0);
                     }
 
 
