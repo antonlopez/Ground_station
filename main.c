@@ -29,6 +29,7 @@ int main(void) {
     //
       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA); // enable port A
       GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_7);
+      GPIOPadConfigSet(GPIO_PORTA_BASE, GPIO_PIN_7, GPIO_STRENGTH_8MA,  GPIO_PIN_TYPE_STD_WPU );
 
 
     // DEFINE PWM VARIABLES
@@ -83,10 +84,13 @@ int main(void) {
         if ( pitchNum < 0) {
             GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, GPIO_PIN_7);
               }
-        if ( pitchNum > 45) {
+        if ( pitchNum > 35) {
             GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, 0);
                     }
 
+       // GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, GPIO_PIN_7);
+        //delayMS(2000);
+       //GPIOPinWrite(GPIO_PORTA_BASE,GPIO_PIN_7, 0);
 
 
         PWMDCSet (ui32Load, dutyRoll, dutyPitch);
